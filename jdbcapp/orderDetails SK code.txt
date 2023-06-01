@@ -1,0 +1,69 @@
+public static void addOrders(int orderNumber, String productCode, int quantityOrdered, double priceEach,int orderLineNumber) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		PreparedStatement psOrders = null;
+		Resultset rs = null;
+		try {
+			newDBConnection dbcon = new newDBConnection();
+			conn = dbcon.createnewDBConnection();
+//			JDBC Transactions 
+			conn.setAutoCommit(false); //Disable autocommit
+			String sqlorderDetailsInsert = "INSERT INTO orderdetails(orderNumber,productCode,quantityOrdered,priceEach,orderLineNumber) VALUES (?,?,?,?,?)";
+			ps = conn.prepareStatement(sqlorderDetailsInsert, Statement.RETURN_GENERATED_KEYS);
+			ps.setInt(1, orderNumber);
+			ps.setString(2, productCode);
+			ps.setInt(3, quantityOrdered);
+			ps.setDouble(4, priceEach);
+			ps.setInt(5, orderLineNumber);
+			int rowAffected = ps.executeUpdate();
+			rs = (Resultset) ps.getGeneratedKeys();
+			System.out.println("Generated Keys: "+ rs);
+			int order_ID = 0;
+			if(((ResultSet) rs).next()) {
+				order_ID = ((ResultSet) rs).getInt(1);
+			}
+			System.out.println("Order ID: "+order_ID);
+			String orderDates = "2023-05-21";
+			String requiredDates = "2023-05-28";
+			String sDate = "2023-05-23";
+			String status = "In Process";
+			String comments = null;
+			int customerNumber = 128;
+			Date orderDate = Date.valueOf(orderDates);
+			Date requiredDate = Date.valueOf(requiredDates);
+			Date shippedDate = Date.valueOf(sDate);
+			
+			if(rowAffected == 1) {
+				String sqlOrderinsert = "INSERT INTO orders(orderNumber,orderDate, requiredDate, shippedDate, status,comments,customerNumber) VALUES (?,?,?,?,?,?,?)";
+				psOrders = conn.prepareStatement(sqlOrderinsert);
+				psOrders.setInt(1, orderNumber);
+				psOrders.setDate(2, orderDate);
+				psOrders.setDate(3, requiredDate);
+				psOrders.setDate(4, shippedDate);
+				psOrders.setString(5, status);
+				psOrders.setString(6, comments);
+				psOrders.setInt(7, customerNumber);
+				ps.executeUpdate();
+				conn.commit();
+			}else {
+				System.out.println("Rollback Done");
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			try {
+				if(conn!= null) {
+					conn.rollback();
+				}
+			}catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
+		} finally {
+			try {
+				if(rs != null) ((ResultSet) rs).close();
+				if(ps != null) ps.close();
+				if(psOrders != null) psOrders.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e3) {
+				System.out.println(e3.getMessage());
+			}
+		}

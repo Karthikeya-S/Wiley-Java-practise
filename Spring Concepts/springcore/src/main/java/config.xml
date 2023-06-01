@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util
+				http://www.springframework.org/schema/util
+				https://www.springframework.org/schema/util/spring-util.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/spring-context.xsd">
+	<!-- Type 1 of creating a bean-->
+	<bean class="com.wiley.springcore.Student" name="wileystudent1">
+		<property name="studentId">
+			<value>1001</value>
+		</property>
+		<property name="studentName">
+			<value>Karthikeya</value>
+		</property>
+		<property name="Address">
+			<value>T. Nagar, Chennai</value>
+		</property>
+	</bean>
+	<!-- Type 2 of creating a bean-->
+	<bean class="com.wiley.springcore.Student" name="wileystudent2">
+		<property name="studentId" value="1002"></property>
+		<property name="studentName" value="Sano"></property>
+		<property name="Address" value="West Mambalam, Chennai"></property>
+	</bean>
+	<!-- Type 3 of creating a bean-->
+	<bean
+		class="com.wiley.springcore.Student"
+		name="wileystudent3"
+		p:studentId="1003"
+		p:studentName="Selva"
+		p:Address="Guduvancherry, New Delhi"
+	>
+	</bean>
+
+	<bean class="com.wiley.springcore.Student" name="student4">
+		<property name="studentId" value="1002"></property>
+		<property name="studentName" value="Sano"></property>
+		<property name="Address" value="West Mambalam, Chennai"></property>
+		<property name="skills">
+			<list>
+				<value>Java</value>
+				<value>SQL</value>
+				<value>Spring</value>
+			</list>
+		</property>
+		<property name="Add">
+			<set>
+				<value>KRK Street</value>
+				<value>West Mambalam</value>
+				<value>Chennai</value>
+			</set>
+		</property>
+		<property name="maps">
+			<map>
+				<entry key="name" value="Sunny"></entry>
+				<entry key="Work at" value="Wiley"></entry>
+			</map>
+		</property>
+	</bean>
+	<bean class="com.wiley.springcore.Student" name="student5">
+		<property name="studentId" value="1002"></property>
+		<property name="studentName" value="Sano"></property>
+		<property name="Address" value="West Mambalam, Chennai"></property>
+		<property name="skills">
+			<list>
+				<value>Java</value>
+				<value>SQL</value>
+				<value>Spring</value>
+			</list>
+		</property>
+		<property name="Add">
+			<set>
+				<value>KRK Street</value>
+				<value>West Mambalam</value>
+				<value>Chennai</value>
+			</set>
+		</property>
+		<property name="maps">
+			<props>
+				<prop key="name ">Karthikeya</prop>
+				<prop key="Work At ">Wiley Edge</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

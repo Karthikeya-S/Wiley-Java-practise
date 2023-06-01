@@ -1,0 +1,15 @@
+int rowAffected = ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			System.out.println("Generated Keys: "+ rs);
+			int orderId = 0;
+			if(((ResultSet) rs).next()) {
+				orderId = ((ResultSet) rs).getInt(1);
+			}
+			System.out.println("ORDER ID: "+orderId);
+			if(rowAffected == 1) {
+				
+				conn.commit();
+			}else {
+				System.out.println("Rollback Done");
+				conn.rollback();
+			}
